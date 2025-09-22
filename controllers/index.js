@@ -1,6 +1,10 @@
-import { getDebts, createDebt, getDebtsBy, updateDebt, deleteDebtsBy,  lockDebts, unlockDebts, deleteDebtsByUserID, deleteAllDebts} from "./debtController.js";
+import { getDebts, createDebt, getDebtsBy, updateDebt, updateDebtsBy, deleteDebtsBy,  lockDebts, unlockDebts, deleteAllDebts} from "./DebtController.js";
+import { getUsers, createUser, getUsersBy, updateUser, updateUsersBy, deleteUsersBy,  lockUsers, unlockUsers, deleteAllUsers} from "./UserController.js";
 
-const debtController = {
-    getDebts, getDebtsBy, createDebt, updateDebt, deleteAllDebts, lockDebts, unlockDebts, deleteDebtsByUserID, deleteAllDebts, deleteDebtsBy
+export const DebtController = {
+    getDebts, getDebtsBy, createDebt, updateDebt, updateDebtsBy, deleteAllDebts, lockDebts, unlockDebts, deleteAllDebts, deleteDebtsBy
 }
-export default debtController
+
+export const UserController = {
+    getUsers, createUser, getUsersBy, updateUser, updateUsersBy, deleteUsersBy,  lockUsers, unlockUsers, deleteAllUsers
+}

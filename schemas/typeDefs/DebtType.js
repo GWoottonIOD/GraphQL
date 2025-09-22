@@ -8,7 +8,7 @@ import graphql, {
   GraphQLList,
 } from 'graphql';
 
-export const debtType = new GraphQLObjectType({
+export const DebtType = new GraphQLObjectType({
   name: "debt",
   fields: () => ({
     id: { type: GraphQLInt },
