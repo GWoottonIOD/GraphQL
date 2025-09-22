@@ -1,5 +1,7 @@
 "use strict";
 import { Models } from "../models/index.js";
+import bcrypt from "bcryptjs/dist/bcrypt.js";
+import jwt from "jsonwebtoken";
 
 export const getUsers = () => {
     return Models.Users.findAll()
@@ -19,12 +21,15 @@ export const getUsersBy = (data) => {
         .then(function (data) {
             return data;
         })
-        .catch(err => {
+        .catch(err => { 
             throw err;
         });
 }
 
-export const createUser = (data) => {
+export const createUser = async (data) => {
+    console.log(data.password)
+    data.password = await bcrypt.hash(password, 10);
+    console.log(data.password)
     return Models.Users.create(data)
         .then(function (data) {
             console.log(data)
@@ -35,7 +40,8 @@ export const createUser = (data) => {
         });
 }
 
-export const updateUser = (data) => {
+export const updateUser = async (data) => {
+    data.password? data.password = await bcrypt.hash(password, 10): null
     const returnData = data;
     return Models.Users.update(data, {
         where: {
@@ -52,7 +58,8 @@ export const updateUser = (data) => {
         });
 }
 
-export const updateUsersBy = (data) => {
+export const updateUsersBy = async (data) => {
+    data.password? data.password = await bcrypt.hash(password, 10): null
     const returnData = data;
     return Models.Users.update(data, {
         where: { [data.filter]: data.value }
@@ -87,6 +94,36 @@ export const deleteAllUsers = (data) => {
             throw err;
         });
 }
+
+export const loginUser = (data) => {
+    return Models.Users.findOne({ where: { username: data.username } }).then(
+        async function (user) {
+            // If the user exists and the password is correct, send the user data as a response
+            if (user && (await bcrypt.compare(data.password, user.password))) {
+                // Replace "your-secret-key" with your actual secret key
+                const secretKey = process.env.JWT_SECRET;
+
+                // Create a payload with user information
+                const payload = {
+                    userId: user.id,
+                    username: user.username,
+                };
+
+                // Generate a token with jwt.sign
+                const token = jwt.sign(payload, secretKey, { expiresIn: "1h" });
+                console.log(token)
+
+                user.token = token
+                // Send the user data and token in the response
+                return [user]  ;
+            } else {
+                return "Invalid User";
+            }
+        }
+    ).catch(err => {
+        throw err;
+    });
+};
 
 export const lockUsers = () => {
     return Models.Users.findAll({

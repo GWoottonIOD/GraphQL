@@ -19,5 +19,6 @@ export const UserType = new GraphQLObjectType({
         createdAt: { type: GraphQLString },
         updatedAt: { type: GraphQLString },
         UserAdmin: { type: GraphQLInt },
+        token: { type: GraphQLString }
     })
 })

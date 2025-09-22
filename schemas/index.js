@@ -47,6 +47,17 @@ export const rootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         return UserController.getUsersBy(args);
       }
+    },
+    loginUser: {
+      type: new GraphQLList(UserType),
+      args: {
+        username: { type: GraphQLString },
+        password: { type: GraphQLString },
+        token: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        return UserController.loginUser(args)
+      }
     }
   }
 });

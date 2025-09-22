@@ -11,7 +11,7 @@ app.use('/graphql', createHandler({
   graphiql: true
 }))
 
-connectMysql()
+connectMysql()//connect to mysql
 
 app.listen(4000);
 console.log('Running a GraphQL API server at localhost:4000/graphql');
